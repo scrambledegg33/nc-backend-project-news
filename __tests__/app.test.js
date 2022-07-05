@@ -185,3 +185,37 @@ describe("4. GET /api/users", () => {
             });
         });
       });
+
+     /* describe("8. GET /api/articles", () => {
+        test("status:200, responds with an array of articles", () => {
+          return request(app)
+            .get("/api/articles")
+            .expect(200)
+            .then(( {body} ) => {
+                  expect(body.articles).toBeInstanceOf(Array);
+                  expect(body.articles).toHaveLength(12);
+              body.articles.forEach((article) => {
+                expect(article).toMatchObject(
+                  {
+                    username: expect.any(String),
+                    name: expect.any(String),
+                    avatar_url: expect.any(String)
+                  
+
+                  
+                  
+                  })
+                
+              });
+            });
+        });
+          
+          test('status:404, responds with an error message when given wrong endpoint', () => {
+              return request(app)
+                .get('/api/usersss')
+                .expect(404)
+                .then(({ body }) => {
+                  expect(body.msg).toBe('path not found');
+                });
+            });
+          });*/
