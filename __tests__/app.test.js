@@ -164,3 +164,24 @@ describe("4. GET /api/users", () => {
           });
       });
     });
+
+    describe("task 7 testing that comment_count is working", () => {
+      test('checking sql query implements count functionality', () => {
+          const ARTICLE_ID = 1;
+          return request(app)
+            .get(`/api/articles/${ARTICLE_ID}`)
+            .expect(200)
+            .then(({ body }) => {
+              expect(body.article).toEqual({
+                article_id: ARTICLE_ID,
+                title: "Living in the shadow of a great man",
+                topic: "mitch",
+                author: "butter_bridge",
+                body: "I find this existence challenging",
+                created_at: "2020-07-09T20:11:00.000Z",
+                votes: 100,
+                comment_count: 11
+});
+            });
+        });
+      });
