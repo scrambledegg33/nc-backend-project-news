@@ -1,28 +1,31 @@
 const express = require("express");
 const { getTopics } = require('./controllers/getTopics');
 const { getArticleById } = require('./controllers/getArticleById');
+const { patchArticle } = require('./controllers/patchArticleById');
+const { getUsers } = require('./controllers/getUsers');
 
 const app = express();
 app.use(express.json());
 
+const {
+    handleCustomErrors,
+    handleInvalidPaths,
+    handle500s,
+    handlePsqlErrors,
+  } = require('./controllers/controllers.errors.js');
+  
+  
+
 app.get("/api/topics", getTopics);
 app.get("/api/articles/:article_id", getArticleById);
 
+app.patch("/api/articles/:article_id", patchArticle);
 
-app.use((err, req, res, next) => {
-    if (err.code === '22P02') {
-      res.status(400).send({ msg: 'Invalid input' });
-    }});
-  
+app.get("/api/users", getUsers);
 
-
-app.use('*', (req, res) => {
-    res.status(404).send({msg: 'not found'});
-    });
-
-app.use((err, req, res, next) => {
-    console.log(err);
-    res.status(500).send({msg: '500 server error'});
-})
+app.all('*', handleInvalidPaths)
+app.use(handleCustomErrors);
+app.use(handlePsqlErrors);
+app.use(handle500s);
 
 module.exports = app;

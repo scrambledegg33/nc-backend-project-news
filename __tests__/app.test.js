@@ -35,7 +35,7 @@ describe("1. GET /api/topics", () => {
           .get('/api/topicsss')
           .expect(404)
           .then(({ body }) => {
-            expect(body.msg).toBe('not found');
+            expect(body.msg).toBe('path not found');
           });
       });
     });
@@ -66,4 +66,88 @@ describe("1. GET /api/topics", () => {
                 expect(body.msg).toBe('Invalid input');
               });
           });
+          test('status:404, responds with an error message when given an id that doesnt correspond to an id in the data', () => {
+            return request(app)
+              .get('/api/articles/999999')
+              .expect(404)
+              .then(({ body }) => {
+                expect(body.msg).toBe('not found');
+              });
+          });
+})
+describe("3. PATCH /api/articles/:article_id", () => {
+	test("status:200, responds with the updated votes for the article", () => {
+		const voteUpdates = {
+			votes: 12
+		};
+		return request(app)
+			.patch("/api/articles/1")
+			.send(voteUpdates)
+			.expect(200)
+			.then(({ body }) => {
+				expect(body.article).toEqual({
+					article_id: 1,
+                    title: "Living in the shadow of a great man",
+                    topic: "mitch",
+                    author: "butter_bridge",
+                    body: "I find this existence challenging",
+                    created_at: "2020-07-09T20:11:00.000Z",
+                    votes: 112
+				});
+			});
+	});
+    test("body: {} -> malformed body / missing required fields: 400 Bad Request", () => {
+        const voteUpdates = {
+			votes: {}
+		};
+		return request(app)
+			.patch("/api/articles/1")
+			.send(voteUpdates)
+              .expect(400)
+              .then(({ body }) => {
+                expect(body.msg).toBe('Invalid input');
+              });
     })
+    test("body: { increase_votes_by: 'word' } -> incorrect type: 400 Bad Request", () => {
+        const voteUpdates = {
+			votes: 'word'
+		};
+		return request(app)
+			.patch("/api/articles/1")
+			.send(voteUpdates)
+              .expect(400)
+              .then(({ body }) => {
+                expect(body.msg).toBe('Invalid input');
+              });
+    })
+});
+
+describe("4. GET /api/users", () => {
+	test("status:200, responds with an array of users", () => {
+		return request(app)
+			.get("/api/users")
+			.expect(200)
+			.then(( {body} ) => {
+            expect(body.users).toBeInstanceOf(Array);
+            expect(body.users).toHaveLength(4);
+				body.users.forEach((user) => {
+					expect(user).toMatchObject(
+						{
+							username: expect.any(String),
+							name: expect.any(String),
+                            avatar_url: expect.any(String)
+						})
+					
+				});
+			});
+	});
+    
+    test('status:404, responds with an error message when given wrong endpoint', () => {
+        return request(app)
+          .get('/api/usersss')
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).toBe('path not found');
+          });
+      });
+    });
