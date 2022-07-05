@@ -119,7 +119,13 @@ describe("3. PATCH /api/articles/:article_id", () => {
               .then(({ body }) => {
                 expect(body.msg).toBe('Invalid input');
               });
-    })*/
+
+    })
+    })
+
+});
+
+
 });
 
 describe("4. GET /api/users", () => {
@@ -151,3 +157,4 @@ describe("4. GET /api/users", () => {
           });
       });
     });
+
