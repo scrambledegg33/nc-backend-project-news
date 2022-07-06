@@ -76,6 +76,7 @@ describe("1. GET /api/topics", () => {
               });
           });
 })
+
 describe("3. PATCH /api/articles/:article_id", () => {
 	test("status:200, responds with the updated votes for the article", () => {
 		const voteUpdates = {
@@ -97,7 +98,7 @@ describe("3. PATCH /api/articles/:article_id", () => {
 				});
 			});
 	});
-   /* test("body: {} -> malformed body / missing required fields: 400 Bad Request", () => {
+   test("body: {} -> malformed body / missing required fields: 400 Bad Request", () => {
         const voteUpdates = {
 			votes: {}
 		};
@@ -120,9 +121,9 @@ describe("3. PATCH /api/articles/:article_id", () => {
               .then(({ body }) => {
                 expect(body.msg).toBe('Invalid input');
               });
-
-    })
-    })
+            })
+    
+    
 
     test("endpoint articles/9999 should return a 404 not found.", () => {
       const voteUpdates = {
@@ -140,9 +141,6 @@ describe("3. PATCH /api/articles/:article_id", () => {
 
 });
 
-
-
-});
 
 describe("4. GET /api/users", () => {
 	test("status:200, responds with an array of users", () => {
@@ -232,4 +230,72 @@ describe("4. GET /api/users", () => {
             });
           });
 
+     describe('task 9 find the all the comments for a given article ID, /api/articles/:article_id/comments', () => {
+      test('status: 200, responds with a array of one comment for the article with the given article ID', () => {
+        const ARTICLE_ID = 6;
+        return request(app)
+          .get(`/api/articles/${ARTICLE_ID}/comments`)
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.comments).toBeInstanceOf(Array);
+            expect(body.comments).toHaveLength(1);
+            expect(body.comments).toEqual([{
+              comment_id: 16,
+              votes: 1,
+              created_at: '2020-10-11T15:23:00.000Z',
+              author: 'butter_bridge',
+              body: "This is a bad article name"
+      }])
+     })     
+     
+    })
+    test('status: 200, responds with a array of multiple comments associated with the article with the given article ID', () => {
+      const ARTICLE_ID = 9;
+      return request(app)
+        .get(`/api/articles/${ARTICLE_ID}/comments`)
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.comments).toBeInstanceOf(Array);
+          expect(body.comments).toHaveLength(2);
+          expect(body.comments).toEqual([{
+            comment_id: 1,
+            votes: 16,
+            created_at: "2020-04-06T12:17:00.000Z",
+            author: 'butter_bridge',
+            body: "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!"
+    }, {
+            comment_id: 17,
+            votes: 20,
+            created_at: "2020-03-14T17:02:00.000Z",
+            author: "icellusedkars",
+            body: "The owls are not what they seem."
+    }])
+   })     
+   
+  })
+  test('/api/articles/9999/comments -> article that does not exist: 404 Not Found', () => {
+    return request(app)
+      .get('/api/articles/9999/comments')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
+      });
+  });
+  test('/api/articles/notAnId/comments -> invalid ID: 400 Bad Request', () => {
+    return request(app)
+      .get('/api/articles/notAnId/comments')
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe('Invalid input');
+      });
+  });
+  test('/api/articles/4/comments -> article that does not have any comments', () => {
+    return request(app)
+      .get('/api/articles/4/comments')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
+      });
+  });
+  });
 
