@@ -289,5 +289,13 @@ describe("4. GET /api/users", () => {
         expect(body.msg).toBe('Invalid input');
       });
   });
+  test('/api/articles/4/comments -> article that does not have any comments', () => {
+    return request(app)
+      .get('/api/articles/4/comments')
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe('not found');
+      });
+  });
   });
 

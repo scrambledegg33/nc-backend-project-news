@@ -7,7 +7,6 @@ exports.fetchCommentsByArticleId = (article_id) => {
       FROM comments
       WHERE article_id = $1;`, [article_id])
       .then((result) => {
-        console.log(result)
         if(result.rows.length){
           return result.rows;
           
