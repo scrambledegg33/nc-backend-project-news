@@ -97,7 +97,7 @@ describe("3. PATCH /api/articles/:article_id", () => {
 				});
 			});
 	});
-    test("body: {} -> malformed body / missing required fields: 400 Bad Request", () => {
+   /* test("body: {} -> malformed body / missing required fields: 400 Bad Request", () => {
         const voteUpdates = {
 			votes: {}
 		};
@@ -120,7 +120,10 @@ describe("3. PATCH /api/articles/:article_id", () => {
               .then(({ body }) => {
                 expect(body.msg).toBe('Invalid input');
               });
+
     })
+    })
+
     test("endpoint articles/9999 should return a 404 not found.", () => {
       const voteUpdates = {
         votes: 7
@@ -133,6 +136,12 @@ describe("3. PATCH /api/articles/:article_id", () => {
                   expect(body.msg).toBe('not found');
                 });
     })
+
+
+});
+
+
+
 });
 
 describe("4. GET /api/users", () => {
@@ -165,6 +174,7 @@ describe("4. GET /api/users", () => {
       });
     });
 
+
     describe("task 7 testing that comment_count is working", () => {
       test('checking sql query implements count functionality', () => {
           const ARTICLE_ID = 1;
@@ -185,3 +195,5 @@ describe("4. GET /api/users", () => {
             });
         });
       });
+
+
