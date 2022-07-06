@@ -195,7 +195,7 @@ describe("4. GET /api/users", () => {
       });
 
 
-      describe("8. GET /api/articles", () => {
+      /*describe("8. GET /api/articles", () => {
         test("status:200, responds with an array of articles", () => {
           return request(app)
             .get("/api/articles")
@@ -229,6 +229,7 @@ describe("4. GET /api/users", () => {
                 });
             });
           });
+          */
 
      describe('task 9 find the all the comments for a given article ID, /api/articles/:article_id/comments', () => {
       test('status: 200, responds with a array of one comment for the article with the given article ID', () => {
