@@ -9,6 +9,7 @@ exports.fetchArticleById = (article_id) => {
       WHERE articles.article_id = $1
       GROUP BY articles.article_id;`, [article_id])
       .then((result) => {
+        
         if(result.rows.length){
           return result.rows[0];
           
