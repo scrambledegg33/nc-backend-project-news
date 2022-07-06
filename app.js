@@ -4,6 +4,7 @@ const { getArticleById } = require('./controllers/getArticleById');
 const { patchArticle } = require('./controllers/patchArticleById');
 const { getUsers } = require('./controllers/getUsers');
 const { getArticles } = require('./controllers/getArticles');
+const { getCommentsByArticleId } = require('./controllers/getCommentsByArticleId');
 
 const app = express();
 app.use(express.json());
@@ -24,7 +25,8 @@ app.patch("/api/articles/:article_id", patchArticle);
 
 app.get("/api/users", getUsers);
 
-app.get("/api/articles", getArticles)
+app.get("/api/articles", getArticles);
+app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 
 app.all('*', handleInvalidPaths)
 app.use(handleCustomErrors);
