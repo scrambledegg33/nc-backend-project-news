@@ -373,3 +373,17 @@ describe("4. GET /api/users", () => {
     })
 
   })
+
+  describe('testing different queries for GET api/articles endpoint', () => {
+    test('the endpoint should accept the query sort_by, which sorts the articles by any valid column (defaults to date)', () => {
+      return request(app)
+			.get("/api/articles?sort_by=author")
+			.expect(200)
+			.then(( {body} ) => {
+            expect(body.articles).toBeSortedBy('author', {
+                ascending: true,
+                coerce: true
+            });
+			});
+    })
+  })
