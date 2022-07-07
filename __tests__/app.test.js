@@ -389,8 +389,25 @@ describe("4. GET /api/users", () => {
   })*/
 
 
-  describe("4. DELETE api/restaurants/:restaurant_id", () => {
+  describe("4. DELETE api/comments/:comment_id", () => {
     test("status:204, responds with an empty response body", () => {
-      return request(app).delete("/api/restaurants/2").expect(204);
+      return request(app).delete("/api/comments/2").expect(204);
     });
+    test('status:404, comment does not exist', () => {
+      return request(app)
+        .delete('/api/99999')
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe('path not found');
+        });
+    });
+    test('status 400: pass an comment id that is not a number', () => {
+     return request(app)
+        .delete("/api/comments/hello")
+                .expect(400)
+                .then(({ body }) => {
+                  expect(body.msg).toBe('Invalid input');
+                });
+    }) 
+
   });
