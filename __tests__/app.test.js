@@ -300,3 +300,54 @@ describe("4. GET /api/users", () => {
   });
   });
 
+  describe('POST /api/articles/:article_id/comments', () => {
+    test("status:201, responds with comment newly added to the comments database", () => {
+  
+      const newComment = {
+        username : "lurker",
+        body: 'lurking around'
+      };
+      return request(app)
+        .post(`/api/articles/2/comments`)
+        .send(newComment)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.comment).toEqual({
+            article_id: expect.any(Number),
+            author: 'lurker',
+            body: 'lurking around',
+            comment_id: expect.any(Number),
+            votes: 0,
+            created_at: expect.any(String) 
+          });
+        });
+    });
+   /* test("body: { username:  6,  body: 'hello' } -> failing schema validation, username must be a string: 400 Bad Request", () => {
+      const comment = {
+        username: 6,
+        body: 'hello'
+  };
+  return request(app)
+    .post("/api/articles/1/comments")
+    .send(comment)
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).toBe('Invalid input');
+            });
+          })
+  test("body: {} -> malformed body / missing required fields: 400 Bad Request", () => {
+      const newComment = {
+          username: {},
+          body: {}
+        };
+        return request(app)
+          .patch("/api/articles/1/comments")
+          .send(newComment)
+                  .expect(400)
+                  .then(({ body }) => {
+                    expect(body.msg).toBe('Invalid input');
+                  });
+        })*/
+
+
+  })
