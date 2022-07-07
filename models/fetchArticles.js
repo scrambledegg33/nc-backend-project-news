@@ -2,15 +2,18 @@ const db = require('../db/connection.js');
 
 exports.fetchArticles = (sortBy, order, topic) => {
     
-    const queryValues = [];
-    //['title', 'topic', 'author', 'body', 'created_at', 'votes', 'comment_count'];
+    const sortByValues = ['title', 'topic', 'author', 'body', 'created_at', 'votes', 'comment_count'];
+
     let queryStr = 'SELECT * FROM articles';
     
-    if (sortBy) {
-        queryValues.push('title');
-        queryStr += `WHERE title = $1`;
+    if (!sortByValues.includes(sortBy)) {
+        return Promise.reject({status: 404, msg: 'not found'});
       }
-
+    if(order != 'ASC' || order != 'DESC'){
+        return Promise.reject({status: 404, msg: 'not found'});
+    }
+    return db.query(`SELECT * FROM topics
+            WHERE slug = $1`, [topic]).then((topicValue) => console.log(topicValue));
 
 
 /*const sortByDefault = sortBy ?  sortBy : sortBy = 'created_at'

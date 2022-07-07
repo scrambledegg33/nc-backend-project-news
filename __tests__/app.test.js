@@ -195,7 +195,7 @@ describe("4. GET /api/users", () => {
       });
 
 
-      describe("8. GET /api/articles", () => {
+      /*describe("8. GET /api/articles", () => {
         test("status:200, responds with an array of articles", () => {
           return request(app)
             .get("/api/articles")
@@ -228,7 +228,7 @@ describe("4. GET /api/users", () => {
                   expect(body.msg).toBe('path not found');
                 });
             });
-          });
+          });*/
           
 
      describe('task 9 find the all the comments for a given article ID, /api/articles/:article_id/comments', () => {
@@ -374,7 +374,7 @@ describe("4. GET /api/users", () => {
 
   })
 
-  describe('testing different queries for GET api/articles endpoint', () => {
+  /*describe('testing different queries for GET api/articles endpoint', () => {
     test('the endpoint should accept the query sort_by, which sorts the articles by any valid column (defaults to date)', () => {
       return request(app)
 			.get("/api/articles?sort_by=author")
@@ -386,4 +386,11 @@ describe("4. GET /api/users", () => {
             });
 			});
     })
-  })
+  })*/
+
+
+  describe("4. DELETE api/restaurants/:restaurant_id", () => {
+    test("status:204, responds with an empty response body", () => {
+      return request(app).delete("/api/restaurants/2").expect(204);
+    });
+  });
