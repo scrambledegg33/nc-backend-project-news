@@ -5,7 +5,8 @@ const { patchArticle } = require('./controllers/patchArticleById');
 const { getUsers } = require('./controllers/getUsers');
 const { getArticles } = require('./controllers/getArticles');
 const { getCommentsByArticleId } = require('./controllers/getCommentsByArticleId');
-const { postComment } = require('./controllers/postComment')
+const { postComment } = require('./controllers/postComment');
+const { deleteComment } = require('./controllers/deleteComment');
 
 const app = express();
 app.use(express.json());
@@ -30,6 +31,8 @@ app.get("/api/articles", getArticles);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 
 app.post("/api/articles/:article_id/comments", postComment);
+
+app.delete("/api/comments/:comment_id", deleteComment);
 
 app.all('*', handleInvalidPaths)
 app.use(handleCustomErrors);

@@ -3,6 +3,7 @@ const app = require("../app");
 const db = require("../db/connection");
 const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data");
+const sorted = require("jest-sorted")
 
 afterAll(() => {
 	return db.end();
@@ -229,6 +230,7 @@ describe("4. GET /api/users", () => {
                 });
             });
           });
+          
 
      describe('task 9 find the all the comments for a given article ID, /api/articles/:article_id/comments', () => {
       test('status: 200, responds with a array of one comment for the article with the given article ID', () => {
@@ -372,3 +374,54 @@ describe("4. GET /api/users", () => {
     })
 
   })
+
+  describe.only('testing different queries for GET api/articles endpoint', () => {
+    test('the endpoint should accept the query sort_by, which sorts the articles by any valid column (defaults to date)', () => {
+      return request(app)
+			.get("/api/articles?sort_by=author")
+			.expect(200)
+			.then(( {body} ) => {
+            expect(body.articles).toBeSorted({
+              key: "author",  
+              descending: true
+            });
+			});
+    })
+    /*test("status:200, responds with articles in ascending order using an order query", () => {
+      return request(app)
+        .get("/api/articles?order=asc")
+        .expect(200)
+        .then(( {body} ) => {
+              expect(body.articles).toBeSorted({
+                
+                ascending: true
+              });
+          
+          
+        });
+    });*/
+  })
+
+
+  describe("4. DELETE api/comments/:comment_id", () => {
+    test("status:204, responds with an empty response body", () => {
+      return request(app).delete("/api/comments/2").expect(204);
+    });
+    test('status:404, comment does not exist', () => {
+      return request(app)
+        .delete('/api/99999')
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe('path not found');
+        });
+    });
+    test('status 400: pass an comment id that is not a number', () => {
+     return request(app)
+        .delete("/api/comments/hello")
+                .expect(400)
+                .then(({ body }) => {
+                  expect(body.msg).toBe('Invalid input');
+                });
+    }) 
+
+  });
