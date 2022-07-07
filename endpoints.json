@@ -25,6 +25,7 @@
     }
   },
   "GET /api/users": {
-    "description":
+    "description": "serves an array of all users",
+    
   }
 }
