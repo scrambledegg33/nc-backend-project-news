@@ -196,7 +196,7 @@ describe("4. GET /api/users", () => {
       });
 
 
-      describe("8. GET /api/articles", () => {
+      describe.only("8. GET /api/articles", () => {
         test("status:200, responds with an array of articles", () => {
           return request(app)
             .get("/api/articles")
@@ -211,7 +211,6 @@ describe("4. GET /api/users", () => {
                     title: expect.any(String),
                     topic: expect.any(String),
                     author: expect.any(String),
-                    body: expect.any(String),
                     comment_count: expect.any(Number),
                     created_at: expect.any(String),
                     votes: expect.any(Number)
@@ -387,19 +386,19 @@ describe("4. GET /api/users", () => {
             });
 			});
     })
-    /*test("status:200, responds with articles in ascending order using an order query", () => {
+    test("status:200, responds with articles in ascending order using an order query", () => {
       return request(app)
         .get("/api/articles?order=asc")
         .expect(200)
         .then(( {body} ) => {
               expect(body.articles).toBeSorted({
-                
+                key: 'created_at',
                 ascending: true
               });
           
           
         });
-    });*/
+    });
   })
 
 
