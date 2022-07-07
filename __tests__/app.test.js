@@ -322,32 +322,54 @@ describe("4. GET /api/users", () => {
           });
         });
     });
-   /* test("body: { username:  6,  body: 'hello' } -> failing schema validation, username must be a string: 400 Bad Request", () => {
+    test("body: { username:  'hello',  body: 'hi' } -> username doesn't exist in the database: 404 not found", () => {
       const comment = {
-        username: 6,
-        body: 'hello'
-  };
-  return request(app)
-    .post("/api/articles/1/comments")
-    .send(comment)
-            .expect(400)
+        username: 'hello',
+        body: 'hi'
+        };
+      return request(app)
+      .post("/api/articles/1/comments")
+      .send(comment)
+            .expect(404)
             .then(({ body }) => {
-              expect(body.msg).toBe('Invalid input');
+              expect(body.msg).toBe('not found');
             });
           })
-  test("body: {} -> malformed body / missing required fields: 400 Bad Request", () => {
-      const newComment = {
-          username: {},
-          body: {}
-        };
+    test("body: {} -> malformed body / missing required fields: 400 Bad Request", () => {
+      const newComment = {};
         return request(app)
-          .patch("/api/articles/1/comments")
+          .post("/api/articles/1/comments")
           .send(newComment)
                   .expect(400)
                   .then(({ body }) => {
                     expect(body.msg).toBe('Invalid input');
                   });
-        })*/
-
+        })
+    test('status 400:  pass an article id that isnt a number', () => {
+      const newComment = {
+        username: 'lurker',
+        body: 'howdy'
+      };
+      return request(app)
+        .post("/api/articles/hello/comments")
+        .send(newComment)
+                .expect(400)
+                .then(({ body }) => {
+                  expect(body.msg).toBe('Invalid input');
+                });
+    })   
+    test('status 404:  pass an article id that doesnt exist', () => {
+      const newComment = {
+        username: 'lurker',
+        body: 'howdy'
+      };
+      return request(app)
+        .post("/api/articles/999/comments")
+        .send(newComment)
+                .expect(404)
+                .then(({ body }) => {
+                  expect(body.msg).toBe('not found');
+                });
+    })
 
   })
