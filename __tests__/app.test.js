@@ -3,6 +3,7 @@ const app = require("../app");
 const db = require("../db/connection");
 const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data");
+const sorted = require("jest-sorted")
 
 afterAll(() => {
 	return db.end();
@@ -195,7 +196,7 @@ describe("4. GET /api/users", () => {
       });
 
 
-      /*describe("8. GET /api/articles", () => {
+      describe("8. GET /api/articles", () => {
         test("status:200, responds with an array of articles", () => {
           return request(app)
             .get("/api/articles")
@@ -228,7 +229,7 @@ describe("4. GET /api/users", () => {
                   expect(body.msg).toBe('path not found');
                 });
             });
-          });*/
+          });
           
 
      describe('task 9 find the all the comments for a given article ID, /api/articles/:article_id/comments', () => {
@@ -374,19 +375,32 @@ describe("4. GET /api/users", () => {
 
   })
 
-  /*describe('testing different queries for GET api/articles endpoint', () => {
+  describe.only('testing different queries for GET api/articles endpoint', () => {
     test('the endpoint should accept the query sort_by, which sorts the articles by any valid column (defaults to date)', () => {
       return request(app)
 			.get("/api/articles?sort_by=author")
 			.expect(200)
 			.then(( {body} ) => {
-            expect(body.articles).toBeSortedBy('author', {
-                ascending: true,
-                coerce: true
+            expect(body.articles).toBeSorted({
+              key: "author",  
+              descending: true
             });
 			});
     })
-  })*/
+    /*test("status:200, responds with articles in ascending order using an order query", () => {
+      return request(app)
+        .get("/api/articles?order=asc")
+        .expect(200)
+        .then(( {body} ) => {
+              expect(body.articles).toBeSorted({
+                
+                ascending: true
+              });
+          
+          
+        });
+    });*/
+  })
 
 
   describe("4. DELETE api/comments/:comment_id", () => {
