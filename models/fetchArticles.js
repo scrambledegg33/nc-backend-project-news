@@ -9,7 +9,7 @@ exports.fetchArticles = (sortBy = 'created_at', order = 'desc', topic) => {
     ON articles.article_id = comments.article_id`
     let topicArr = [];
     if(topic){
-        queryStr += 'WHERE topic = $1'
+        queryStr += ' WHERE topic = $1'
         topicArr.push(topic);
     } 
     
