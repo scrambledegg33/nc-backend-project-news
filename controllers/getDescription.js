@@ -1,11 +1,18 @@
-/*const { description } = require('../endpoints.json');
+const description  = require('../endpoints.json');
 
-const getDescription = (req, res, next) => {
-    description().then((info) => res.status(200).send({ info })).catch((err) => {
+exports.getDescription = (req, res, next) => {
+    res.status(200).send({description: description}).catch((err) => {
         next(err);
-    });
+    })
 }
+
+
+
+
+
+
+
+
     
 
 
-module.exports = getDescription;*/

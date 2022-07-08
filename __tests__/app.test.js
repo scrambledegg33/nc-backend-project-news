@@ -3,7 +3,8 @@ const app = require("../app");
 const db = require("../db/connection");
 const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data");
-const sorted = require("jest-sorted")
+const sorted = require("jest-sorted");
+const description = require("../endpoints.json");
 
 afterAll(() => {
 	return db.end();
@@ -196,7 +197,7 @@ describe("4. GET /api/users", () => {
       });
 
 
-      describe.only("8. GET /api/articles", () => {
+      describe("8. GET /api/articles", () => {
         test("status:200, responds with an array of articles", () => {
           return request(app)
             .get("/api/articles")
@@ -374,7 +375,7 @@ describe("4. GET /api/users", () => {
 
   })
 
-  describe.only('testing different queries for GET api/articles endpoint', () => {
+  describe('testing different queries for GET api/articles endpoint', () => {
     test('the endpoint should accept the query sort_by, which sorts the articles by any valid column (defaults to date)', () => {
       return request(app)
 			.get("/api/articles?sort_by=author")
@@ -449,3 +450,15 @@ describe("4. GET /api/users", () => {
     }) 
 
   });
+
+  describe("testing that json file is sent on request", () => {
+    test("GET /api should return a populated json object", () => {
+      return request(app)
+        .get("/api")
+        .expect(200)
+        .then(( {body} ) => {
+              expect(body.description).toEqual(description)
+                
+  })
+})
+  })
