@@ -7,7 +7,7 @@ const { getArticles } = require('./controllers/getArticles');
 const { getCommentsByArticleId } = require('./controllers/getCommentsByArticleId');
 const { postComment } = require('./controllers/postComment');
 const { deleteComment } = require('./controllers/deleteComment');
-const { getDescription } = require('./controllers/getDescription');
+//const { getDescription } = require('./controllers/getDescription');
 
 const app = express();
 app.use(express.json());
@@ -35,7 +35,7 @@ app.post("/api/articles/:article_id/comments", postComment);
 
 app.delete("/api/comments/:comment_id", deleteComment);
 
-app.get("/api", getDescription);
+//app.get("/api", getDescription);
 
 app.all('*', handleInvalidPaths)
 app.use(handleCustomErrors);
