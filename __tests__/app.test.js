@@ -3,7 +3,8 @@ const app = require("../app");
 const db = require("../db/connection");
 const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data");
-const sorted = require("jest-sorted")
+const sorted = require("jest-sorted");
+const description = require("../endpoints.json");
 
 afterAll(() => {
 	return db.end();
@@ -486,3 +487,15 @@ describe("4. GET /api/users", () => {
     }) 
 
   });
+
+  describe("testing that json file is sent on request", () => {
+    test("GET /api should return a populated json object", () => {
+      return request(app)
+        .get("/api")
+        .expect(200)
+        .then(( {body} ) => {
+              expect(body.description).toEqual(description)
+                
+  })
+})
+  })

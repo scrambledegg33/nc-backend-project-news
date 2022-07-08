@@ -11,7 +11,7 @@
   },
   "GET /api/articles": {
     "description": "serves an array of all topics",
-    "queries": ["author", "topic", "sort_by", "order"],
+    "queries": ["topic", "sort_by", "order", "article_id"],
     "exampleResponse": {
       "articles": [
         {
@@ -19,7 +19,9 @@
           "topic": "cooking",
           "author": "weegembump",
           "body": "Text from the article..",
-          "created_at": 1527695953341
+          "created_at": "2020-03-14T17:02:00.000Z",
+          "votes": 0,
+          "comment_count": 0
         }
       ]
     }
@@ -31,6 +33,37 @@
     "users":  [{"username": "lurker", "name": "do_nothing", "avatar_url": "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png"}]
     }
 },
-  
-
+  "POST /api/articles/:article_id/comments": {
+    "description": "creates a comment that is associated to the article with the given id",
+    "queries": [],
+    "exampleResponse": {
+      "comment": {
+        "article_id": 5,
+        "author": "lurker",
+        "body": "lurking around",
+        "comment_id": 2,
+        "votes": 0,
+          "created_at": "2020-03-14T17:02:00.000Z"
+    }
+  }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "adds a given number of votes to the current for vote count of the article with the given article id",
+    "queries": [],
+    "exampleResponse": {
+      "article_id": 1,
+      "title": "Living in the shadow of a great man",
+      "topic": "mitch",
+      "author": "butter_bridge",
+      "body": "I find this existence challenging",
+      "created_at": "2020-07-09T20:11:00.000Z",
+      "votes": 112
+    }
+  },
+  "DELETE api/comments/:comment_id": {
+    "description": "deletes a comment when given the comment id",
+    "queries": [],
+    "exampleResponse": "responds wih an empty response body"
+  }
 }
+
