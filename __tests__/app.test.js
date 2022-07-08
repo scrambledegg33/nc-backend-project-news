@@ -211,7 +211,6 @@ describe("4. GET /api/users", () => {
                     title: expect.any(String),
                     topic: expect.any(String),
                     author: expect.any(String),
-                    body: expect.any(String),
                     comment_count: expect.any(Number),
                     created_at: expect.any(String),
                     votes: expect.any(Number)
@@ -375,7 +374,7 @@ describe("4. GET /api/users", () => {
 
   })
 
-  describe.only('testing different queries for GET api/articles endpoint', () => {
+  describe('testing different queries for GET api/articles endpoint', () => {
     test('the endpoint should accept the query sort_by, which sorts the articles by any valid column (defaults to date)', () => {
       return request(app)
 			.get("/api/articles?sort_by=author")
@@ -387,19 +386,81 @@ describe("4. GET /api/users", () => {
             });
 			});
     })
-    /*test("status:200, responds with articles in ascending order using an order query", () => {
+    test("status:200, responds with articles in ascending order using an order query", () => {
       return request(app)
         .get("/api/articles?order=asc")
         .expect(200)
         .then(( {body} ) => {
               expect(body.articles).toBeSorted({
-                
+                key: 'created_at',
                 ascending: true
               });
-          
-          
+           });
+    });
+    test("status:200, responds with articles with the given topic", () => {
+      return request(app)
+        .get("/api/articles?topic=cats")
+        .expect(200)
+        .then(( {body} ) => {
+              expect(body.articles).toEqual([{
+                article_id: 5,
+                title: "UNCOVERED: catspiracy to bring down democracy",
+                topic: "cats",
+                author: "rogersop",
+                created_at: "2020-08-03T13:14:00.000Z",
+                votes: 0,
+                comment_count: 2,
+              
+              }]);
+           });
+    });
+    test('status:404, responds with an error message when given an invalid topic query', () => {
+      return request(app)
+        .get('/api/article?topic=hello')
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe('path not found');
         });
-    });*/
+    });
+    test('the endpoint should accept the query sort_by and sort by title in ascending order', () => {
+      return request(app)
+			.get("/api/articles?sort_by=title&order=asc")
+			.expect(200)
+			.then(( {body} ) => {
+            expect(body.articles).toBeSorted({
+              key: "title",  
+              ascending: true
+            });
+			});
+    })
+    test('the endpoint should accept the queries:sort_by, order and topic', () => {
+      return request(app)
+			.get("/api/articles?sort_by=author&order=asc&topic=mitch")
+			.expect(200)
+			.then(( {body} ) => {
+        body.articles.forEach(article => expect(article.topic).toBe('mitch'))
+            expect(body.articles).toBeSorted({
+              key: 'author',
+              ascending: true
+            })
+			});
+    })
+    test('status 400:  pass query that does not exist', () => {
+      return request(app)
+        .get("/api/articles/sort_by=hello")
+                .expect(400)
+                .then(({ body }) => {
+                  expect(body.msg).toBe('Invalid input');
+                });
+    })
+    test('status:404, responds with an error message when given wrong endpoint', () => {
+      return request(app)
+        .get('/api/articleeee?order=asc')
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe('path not found');
+        });
+    });
   })
 
 
