@@ -395,8 +395,33 @@ describe("4. GET /api/users", () => {
                 key: 'created_at',
                 ascending: true
               });
-          
-          
+           });
+    });
+    test('the endpoint should accept the query sort_by and sort by title in ascending order', () => {
+      return request(app)
+			.get("/api/articles?sort_by=title&order=asc")
+			.expect(200)
+			.then(( {body} ) => {
+            expect(body.articles).toBeSorted({
+              key: "title",  
+              ascending: true
+            });
+			});
+    })
+    test('status 400:  pass query that does not exist', () => {
+      return request(app)
+        .get("/api/articles/sort_by=hello")
+                .expect(400)
+                .then(({ body }) => {
+                  expect(body.msg).toBe('Invalid input');
+                });
+    })
+    test('status:404, responds with an error message when given wrong endpoint', () => {
+      return request(app)
+        .get('/api/articleeee?order=asc')
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe('path not found');
         });
     });
   })

@@ -14,28 +14,21 @@ exports.fetchArticles = (sortBy = 'created_at', order = 'desc', topic) => {
     } 
     
     queryStr += ' GROUP BY articles.article_id';
-console.log(order);
+
     if (sortBy && !sortByValues.includes(sortBy)) {
         return Promise.reject({status: 404, msg: 'not found'});
       } else if (sortBy && sortByValues.includes(sortBy)) {
         queryStr += ` ORDER BY articles.${sortBy}`
       }
 
-      
-
-      //check if order is undefined
     if(order != 'asc' && order != 'desc'){
         return Promise.reject({status: 404, msg: 'not found'});
     } else {
         queryStr += ` ${order}`
     }
 
-console.log(queryStr);
-
-
     return db.query(queryStr, topicArr)
     .then((result) => {
-        
         return result.rows;
 }).catch((err) => {
     console.log(err);
