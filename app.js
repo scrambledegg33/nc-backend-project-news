@@ -8,6 +8,9 @@ const { getCommentsByArticleId } = require('./controllers/getCommentsByArticleId
 const { postComment } = require('./controllers/postComment');
 const { deleteComment } = require('./controllers/deleteComment');
 const { getDescription } = require('./controllers/getDescription');
+const cors = require('cors');
+
+app.use(cors());
 
 const app = express();
 app.use(express.json());
