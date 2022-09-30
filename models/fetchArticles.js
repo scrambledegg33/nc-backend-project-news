@@ -1,4 +1,4 @@
-const db = require('../db/connection.js');
+ const db = require('../db/connection.js');
 
 exports.fetchArticles = (sortBy = 'created_at', order = 'desc', topic) => {
     
